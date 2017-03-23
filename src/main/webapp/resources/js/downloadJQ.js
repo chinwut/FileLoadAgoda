@@ -10,7 +10,7 @@ $(document).ready(function() {
             $("#message").html("<font color='green'>Success download!</font>");
         },
         complete : function(response) {
-            $("#message").html("<font color='blue'>Your file has been download!</font>");
+            $("#message").html("<font color='green'><b>Your file has been Download!</b>></font>");
         },
         error : function() {
             $("#message").html("<font color='red'> ERROR: unable to download files</font>");

@@ -63,7 +63,7 @@ public class DownloadController {
             String[] parts = fileName.split("/");
             fileStr = (parts.length > 1) ? parts[parts.length - 1] : fileName;
             fileNameConvert = fileNameConvert + fileStr;
-            messageRrn = saveFileFTP(ftpUrl,ftpUserName,ftpPassword,ftpFileName, fileNameConvert);
+            messageRrn = saveFileFTP(ftpUrl,ftpUserName,ftpPassword,ftpFileName, fileNameConvert,typeProtocal);
         }
         model.addAttribute("message",messageRrn);
         return "index";
@@ -93,12 +93,11 @@ public class DownloadController {
             return e.getMessage();
         }
     }
-    public String saveFileFTP(String server,String user,String pass,String filePath,String fileNameConvert) throws IOException {
-        int port = 21;
+    public String saveFileFTP(String server,String user,String pass,String filePath,String fileNameConvert,String typeProtocal) throws IOException {
         String messageReturn = "";
-
+        String strProtocal = (typeProtocal.equals("ftp")) ? "ftp" : "sftp";
         try {
-            URL urlFtp = new URL("ftp://"+user+":"+pass+"@"+server+"/"+filePath);
+            URL urlFtp = new URL(strProtocal+"://"+user+":"+pass+"@"+server+"/"+filePath);
             URLConnection urlc = urlFtp.openConnection();
             InputStream in = urlc.getInputStream(); // To download
 

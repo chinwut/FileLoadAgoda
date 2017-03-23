@@ -18,37 +18,37 @@
 
         <div id="message"></div>
 
-        <input type="radio" name="typeProtocal" value="url" checked> Url<br>
-        <input type="radio" name="typeProtocal" value="ftp"> Ftp<br>
-
+        <input type="radio" name="typeProtocal" value="url" checked> Url
+        <input type="radio" name="typeProtocal" value="ftp"> Ftp
+        <input type="radio" name="typeProtocal" value="sftp"> Sftp<br>
         <div id="divUrl">
-            Download Path : <input type="text" name="fileName"><br>
+            Download Path : <input type="text" name="fileName" class="form-control"><br>
         </div>
         <div id="divFtp">
             <table>
                 <tr>
-                    <td>Server Url :&nbsp;</td>
-                    <td><input type="text" name="ftpUrl"></td>
+                    <td><span id="strProtocal"></span> Server Url :&nbsp;</td>
+                    <td><input type="text" name="ftpUrl" class="form-control" /></td>
                     <td>&nbsp;ex. www.myserver.com</td>
                 </tr>
                 <tr>
                     <td>UserName :&nbsp;</td>
-                    <td><input type="text" name="ftpUserName"/></td>
+                    <td><input type="text" name="ftpUserName" class="form-control" /></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>Password :&nbsp;</td>
-                    <td><input type="password" name="ftpPassword"/></td>
+                    <td><input type="password" name="ftpPassword" class="form-control" /></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>Path File :&nbsp;</td>
-                    <td><input type="text" name="ftpFileName"/></td>
+                    <td><input type="text" name="ftpFileName" class="form-control" /></td>
                     <td></td>
                 </tr>
             </table>
         </div>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Download File" class="btn btn-warning">
     </form>
 </div>
 
@@ -64,6 +64,12 @@
             else if (this.value == 'ftp') {
                 $("#divUrl").hide();
                 $("#divFtp").show();
+                $("#strProtocal").text('Ftp&nbsp;');
+            }
+            else if (this.value == 'sftp') {
+                $("#divUrl").hide();
+                $("#divFtp").show();
+                $("#strProtocal").text('Sftp&nbsp;');
             }
         });
     });
