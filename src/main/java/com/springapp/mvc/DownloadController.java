@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
+import java.net.URLConnection;
 
 @Controller
 /**
@@ -29,7 +31,7 @@ public class DownloadController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String downloadFile(ModelMap model) {
-        model.addAttribute("message", "downloadFile");
+        model.addAttribute("message", "");
         return "index";
     }
 
@@ -37,23 +39,38 @@ public class DownloadController {
     public  String downloadResource(ModelMap model,HttpServletRequest request, HttpServletResponse response) throws IOException {
         String fileName = request.getParameter("fileName");
         String fileNameConvert = "C:/download/";
+        String fileStr = "";
+        String messageRrn = "";
+        String typeProtocal = request.getParameter("typeProtocal");
 
-        fileName = (fileName != null) ? fileName : "downloadResource";
+        fileName = (fileName != null) ? fileName : "";
 
-        //Test File : http://www.axmag.com/download/pdfurl-guide.pdf
-        URL url = new URL(fileName);
-        String[] parts = fileName.split("/");
-        fileNameConvert = fileNameConvert+parts[parts.length-1];
+        String ftpUrl = request.getParameter("fileName");
+        String ftpUserName = request.getParameter("fileName");
+        String ftpPassword = request.getParameter("fileName");
+        String ftpFileName = request.getParameter("ftpFileName");
 
+        if(typeProtocal.trim().equalsIgnoreCase("url")) {
+            //Test File : http://www.axmag.com/download/pdfurl-guide.pdf
+            URL url = new URL(fileName);
+            String[] parts = fileName.split("/");
+            fileNameConvert = fileNameConvert + parts[parts.length - 1];
 
-       saveFile(url,fileNameConvert);
-
-        model.addAttribute("message",fileNameConvert);
+            messageRrn = saveFileUrl(url,fileNameConvert);
+        }
+        else
+        {
+            String[] parts = fileName.split("/");
+            fileStr = (parts.length > 1) ? parts[parts.length - 1] : fileName;
+            fileNameConvert = fileNameConvert + fileStr;
+            messageRrn = saveFileFTP(ftpUrl,ftpUserName,ftpPassword,ftpFileName, fileNameConvert);
+        }
+        model.addAttribute("message",messageRrn);
         return "index";
     }
 
 
-    public String saveFile(URL url, String file) throws IOException {
+    public String saveFileUrl(URL url, String file) throws IOException {
         try {
             String messageReturn = "";
 
@@ -66,7 +83,7 @@ public class DownloadController {
             while ((length = in.read(buffer)) > -1) {
                 fos.write(buffer, 0, length);
             }
-
+            fos.flush();
             fos.close();
             in.close();
             messageReturn = "file was downloaded";
@@ -76,5 +93,32 @@ public class DownloadController {
             return e.getMessage();
         }
     }
+    public String saveFileFTP(String server,String user,String pass,String filePath,String fileNameConvert) throws IOException {
+        int port = 21;
+        String messageReturn = "";
 
+        try {
+            URL urlFtp = new URL("ftp://"+user+":"+pass+"@"+server+"/"+filePath);
+            URLConnection urlc = urlFtp.openConnection();
+            InputStream in = urlc.getInputStream(); // To download
+
+            FileOutputStream fos = new FileOutputStream(new File(fileNameConvert));
+
+            int length = -1;
+            byte[] buffer = new byte[1024];
+
+            while ((length = in.read(buffer)) > -1) {
+                fos.write(buffer, 0, length);
+            }
+            fos.flush();
+            fos.close();
+            in.close();
+            messageReturn = "file was downloaded";
+            return messageReturn;
+
+        }catch (IOException  e)
+        {
+            return e.getMessage();
+        }
+    }
 }
