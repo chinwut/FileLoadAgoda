@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <h1>File Downloader </h1>
-    ${message}
+
     <form  id="DownloadForm" action="/downloadResource" method="post">
 
         <div id="message"></div>
@@ -64,12 +64,12 @@
             else if (this.value == 'ftp') {
                 $("#divUrl").hide();
                 $("#divFtp").show();
-                $("#strProtocal").text('Ftp&nbsp;');
+                $("#strProtocal").text('Ftp');
             }
             else if (this.value == 'sftp') {
                 $("#divUrl").hide();
                 $("#divFtp").show();
-                $("#strProtocal").text('Sftp&nbsp;');
+                $("#strProtocal").text('Sftp');
             }
         });
     });

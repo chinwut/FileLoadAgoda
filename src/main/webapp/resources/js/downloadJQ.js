@@ -9,8 +9,16 @@ $(document).ready(function() {
         success : function() {
             $("#message").html("<font color='green'>Success download!</font>");
         },
-        complete : function(response) {
-            $("#message").html("<font color='green'><b>Your file has been Download!</b>></font>");
+        complete : function(response,xhr, textStatus) {
+            console.log(response.status);
+            if(response.status =="200"){ $("#message").html("<font color='green'><b>Your file has been Download!</b></font>");}
+            else if(response.status =="500" || response.status =="404")
+            {
+                $("#message").html("<font color='red'> ERROR: unable to download files</font>");
+            }else{
+                $("#message").html("<font color='red'> ERROR: unable to download files Please Try Again</font>");
+            }
+
         },
         error : function() {
             $("#message").html("<font color='red'> ERROR: unable to download files</font>");

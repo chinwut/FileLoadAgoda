@@ -53,6 +53,7 @@ public class DownloadController {
         if(typeProtocal.trim().equalsIgnoreCase("url")) {
             //Test File : http://www.axmag.com/download/pdfurl-guide.pdf
             URL url = new URL(fileName);
+            InputStream in = url.openStream();
             String[] parts = fileName.split("/");
             fileNameConvert = fileNameConvert + parts[parts.length - 1];
 
@@ -86,7 +87,7 @@ public class DownloadController {
             fos.flush();
             fos.close();
             in.close();
-            messageReturn = "file was downloaded";
+
             return messageReturn;
         }catch (IOException  e)
         {
@@ -112,7 +113,7 @@ public class DownloadController {
             fos.flush();
             fos.close();
             in.close();
-            messageReturn = "file was downloaded";
+            messageReturn = "";
             return messageReturn;
 
         }catch (IOException  e)
