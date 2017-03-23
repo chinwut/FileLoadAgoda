@@ -6,7 +6,7 @@
 
 ## Program Require
 - Tomcat local Server
-- Create "c:/download" for downloaded file and chmod 755
+- Create "C://download" for downloaded file and chmod 755
 
 ## How to use
 - run tomcat server
@@ -14,4 +14,4 @@
 - if page running complete ,you can see the text "File Downloader"
 - Choose radio button to select Protocal to download.
 - Input the Field.
-- push button "Download File" and wait for completeS
+- push button "Download File" and wait for complete.
